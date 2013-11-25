@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2dTutorial1-BasicSprites", "C2dTutorial1-BasicSprites\C2dTutorial1-BasicSprites.csproj", "{C2AA92EF-1C66-4100-B17B-613EA7CB7BCC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Converter", "Converter\Converter\Converter.csproj", "{8BE6FE29-16C3-42AC-A6CE-49BD49371B10}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "ConverterContent", "Converter\ConverterContent\ConverterContent.contentproj", "{50A78E56-94E6-4017-B6CB-91856A0C69DC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C2AA92EF-1C66-4100-B17B-613EA7CB7BCC}.Debug|x86.ActiveCfg = Debug|x86
+		{C2AA92EF-1C66-4100-B17B-613EA7CB7BCC}.Debug|x86.Build.0 = Debug|x86
+		{C2AA92EF-1C66-4100-B17B-613EA7CB7BCC}.Release|x86.ActiveCfg = Release|x86
+		{C2AA92EF-1C66-4100-B17B-613EA7CB7BCC}.Release|x86.Build.0 = Release|x86
+		{8BE6FE29-16C3-42AC-A6CE-49BD49371B10}.Debug|x86.ActiveCfg = Debug|x86
+		{8BE6FE29-16C3-42AC-A6CE-49BD49371B10}.Debug|x86.Build.0 = Debug|x86
+		{8BE6FE29-16C3-42AC-A6CE-49BD49371B10}.Release|x86.ActiveCfg = Release|x86
+		{8BE6FE29-16C3-42AC-A6CE-49BD49371B10}.Release|x86.Build.0 = Release|x86
+		{50A78E56-94E6-4017-B6CB-91856A0C69DC}.Debug|x86.ActiveCfg = Debug|x86
+		{50A78E56-94E6-4017-B6CB-91856A0C69DC}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
