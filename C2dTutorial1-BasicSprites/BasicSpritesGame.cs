@@ -17,6 +17,9 @@ namespace C2dTutorial1_BasicSprites
         {
             graphics = new GraphicsDeviceManager(this);
 
+            // Set the title of the window
+            this.Window.Title = "Cocos2D-XNA Tutorials: Basic Sprites";
+
             // Create new instance of input helper
             _input = new InputHelper();
 
