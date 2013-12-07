@@ -5,7 +5,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2dTutorial1-BasicSprites",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Converter", "Converter\Converter\Converter.csproj", "{8BE6FE29-16C3-42AC-A6CE-49BD49371B10}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "ConverterContent", "Converter\ConverterContent\ConverterContent.contentproj", "{50A78E56-94E6-4017-B6CB-91856A0C69DC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConverterContent", "Converter\ConverterContent\ConverterContent.contentproj", "{50A78E56-94E6-4017-B6CB-91856A0C69DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2dTutorial2-BasicActions", "C2dTutorial2-BasicActions\C2dTutorial2-BasicActions.csproj", "{D99015F7-00C0-4E00-A3AE-4FBE4783DFEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +25,10 @@ Global
 		{8BE6FE29-16C3-42AC-A6CE-49BD49371B10}.Release|x86.Build.0 = Release|x86
 		{50A78E56-94E6-4017-B6CB-91856A0C69DC}.Debug|x86.ActiveCfg = Debug|x86
 		{50A78E56-94E6-4017-B6CB-91856A0C69DC}.Release|x86.ActiveCfg = Release|x86
+		{D99015F7-00C0-4E00-A3AE-4FBE4783DFEC}.Debug|x86.ActiveCfg = Debug|x86
+		{D99015F7-00C0-4E00-A3AE-4FBE4783DFEC}.Debug|x86.Build.0 = Debug|x86
+		{D99015F7-00C0-4E00-A3AE-4FBE4783DFEC}.Release|x86.ActiveCfg = Release|x86
+		{D99015F7-00C0-4E00-A3AE-4FBE4783DFEC}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
