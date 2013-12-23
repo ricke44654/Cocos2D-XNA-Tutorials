@@ -45,37 +45,43 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="box2d">
-      <HintPath>..\packages\Cocos2D-XNA.WindowsGL.0.9.0.0\lib\net40\box2d.dll</HintPath>
+    <Reference Include="box2d, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\box2d.dll</HintPath>
     </Reference>
-    <Reference Include="cocos2d-xna">
-      <HintPath>..\packages\Cocos2D-XNA.WindowsGL.0.9.0.0\lib\net40\cocos2d-xna.dll</HintPath>
+    <Reference Include="cocos2d-xna, Version=2.2.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\cocos2d-xna.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\packages\Cocos2D-XNA.WindowsGL.0.9.0.0\lib\net40\ICSharpCode.SharpZipLib.dll</HintPath>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="Lidgren.Network, Version=2011.3.12.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Cocos2D-XNA.WindowsGL.0.9.0.0\lib\net40\Lidgren.Network.dll</HintPath>
-    </Reference>
-    <Reference Include="MonoGame.Framework, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Cocos2D-XNA.WindowsGL.0.9.0.0\lib\net40\MonoGame.Framework.dll</HintPath>
+      <HintPath>..\lib\Lidgren.Network.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Cocos2D-XNA.WindowsGL.0.9.0.0\lib\net40\OpenTK.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="Tao.Sdl, Version=1.2.13.0, Culture=neutral, PublicKeyToken=9c7a200e36c0094e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Cocos2D-XNA.WindowsGL.0.9.0.0\lib\net40\Tao.Sdl.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Tao.Sdl.dll</HintPath>
     </Reference>
-    <Reference Include="zlib.net">
-      <HintPath>..\packages\Cocos2D-XNA.WindowsGL.0.9.0.0\lib\net40\zlib.net.dll</HintPath>
+    <Reference Include="zlib.net, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\zlib.net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
-    <Content Include="SDL.dll" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Images\Background.xnb">
@@ -90,7 +96,6 @@
     <None Include="Content\Images\Sprite3.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\fonts\MarkerFelt-22.xnb">
