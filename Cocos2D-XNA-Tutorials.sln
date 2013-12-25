@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConverterContent", "Convert
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2dTutorial2-BasicActions", "C2dTutorial2-BasicActions\C2dTutorial2-BasicActions.csproj", "{D99015F7-00C0-4E00-A3AE-4FBE4783DFEC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C2dTutorial3-CollisionDetection", "C2dTutorial3-CollisionDetection\C2dTutorial3-CollisionDetection.csproj", "{0EDE1840-75DA-47B5-A904-009F835EA5AF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -29,6 +31,10 @@ Global
 		{D99015F7-00C0-4E00-A3AE-4FBE4783DFEC}.Debug|x86.Build.0 = Debug|x86
 		{D99015F7-00C0-4E00-A3AE-4FBE4783DFEC}.Release|x86.ActiveCfg = Release|x86
 		{D99015F7-00C0-4E00-A3AE-4FBE4783DFEC}.Release|x86.Build.0 = Release|x86
+		{0EDE1840-75DA-47B5-A904-009F835EA5AF}.Debug|x86.ActiveCfg = Debug|x86
+		{0EDE1840-75DA-47B5-A904-009F835EA5AF}.Debug|x86.Build.0 = Debug|x86
+		{0EDE1840-75DA-47B5-A904-009F835EA5AF}.Release|x86.ActiveCfg = Release|x86
+		{0EDE1840-75DA-47B5-A904-009F835EA5AF}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
