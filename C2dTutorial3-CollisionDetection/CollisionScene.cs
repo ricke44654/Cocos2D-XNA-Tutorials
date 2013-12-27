@@ -9,20 +9,21 @@ namespace C2dTutorial3_CollisionDetection
     /// <summary>
     /// A Cocos2D-XNA scene that displays the background and sprite layers.
     /// </summary>
-    internal class CollisionScene : CCScene
+    public class CollisionScene : CCScene
     {
-        // Identifies the action layer in the scene so we can access it easily in the Update method of the game
-        public const int ActionLayerTag = 1;
+        #region Constructors
 
         public CollisionScene()
         {
             // Create the background layer and add it to the scene
             var backgroundLayer = new BackgroundLayer();
-            AddChild(backgroundLayer, 0);
+            AddChild(backgroundLayer);
 
-            // Create the sprite layer and add it to the scene
-            var spritesLayer = new GameObjectLayer();
-            AddChild(spritesLayer, 5);
+            // Create the game object layer and add it to the scene
+            var gameObjectLayer = new GameObjectLayer();
+            AddChild(gameObjectLayer);
         }
+
+        #endregion
     }
 }

@@ -6,6 +6,10 @@ using CocosDenshion;
 
 namespace C2dTutorial3_CollisionDetection
 {
+    /// <summary>
+    /// Cocos2D-XNA application delegate object generated as part of the Cocos2D-XNA template.  It performs game initialization
+    /// and setup of the director and first scene for Cocos2D-XNA.
+    /// </summary>
     public class AppDelegate : CCApplication
     {
 
@@ -68,18 +72,19 @@ namespace C2dTutorial3_CollisionDetection
             // set FPS. the default value is 1.0/60 if you don't call this
             pDirector.AnimationInterval = 1.0 / 60;
 
+            // Initialize random number generator
+            CollisionGame.Rand = new Random();
+
             // Initialize a new instance of the input helper
             CollisionGame.Input = new InputHelper();
 
             // Initialize a new instance of the collision grid
             CollisionGame.Grid = new CollisionGrid();
 
-            // Initialize random number generator
-            CollisionGame.Rand = new Random();
-
+            // Create the scene for the game and run it
             CCScene pScene = new CollisionScene();
-
             pDirector.RunWithScene(pScene);
+
             return true;
         }
 

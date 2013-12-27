@@ -6,95 +6,141 @@ using Cocos2D;
 
 namespace C2dTutorial3_CollisionDetection
 {
-    internal class CollisionGrid
+    /// <summary>
+    /// This class implements a grid to help eliminate unnecessary collision detections.
+    /// </summary>
+    /// <remarks>
+    /// This is an implementation based on the excellent 2D collision detection methodology discussed here: http://www.director-online.com/buildArticle.php?id=1114
+    /// 
+    /// I chose this method based on the game type that I wanted to demonstrate, which is a space shooter style game where I needed pixel-perfect collision detection.
+    /// However, even with 2013 technology, it is still quite expensive to check for collisions between all game objects (or even some objects) during each game
+    /// update cycle using pixel-based detection (especially true with phones, tablets, etc.) The idea behind this method of detection is to eliminate areas of the 
+    /// screen where you don't need to perform detection because one object is not in close proximity to another object. In order to achieve this, it works as follows:
+    /// 
+    /// * The screen is partitioned into a grid of squares, with each grid square sized roughly to the size of the sprites you're using in your game (NOTE: the  
+    ///   implicit assumption with this method is that your sprites are sized similarly; if they are not, then you may need to modify this method or use a 
+    ///   completely different method for collisions). You control the grid size with the GridSizeX / GridSizeY constants below. You're looking for a balance where
+    ///   the grid square size is between too small (a single object ends up in multiple bins) and too big (multiple objects in one bin). In this implementation,
+    ///   the final size of the grid square is tweaked to distribute the squares as evenly as possible across the screen to minimize the size of any partial grid
+    ///   squares.
+    /// * A list of "bins" is built for the grid, where each game object is put into the corresponding bin based on the game object's grid position. The bins are
+    ///   cleared and rebuilt during each game update iteration in the GameObjectLayer.Update method.
+    /// * Check the bins where a possible collision could exist (i.e. 2 or more objects exist in that bin). For these bins, perform a pixel-perfect check on those
+    ///   objects to see if they collide. Cocos2d-XNA provides the CCMaskedSprite.CollidesWith method for pixel-perect checking, in which it performs a bounding
+    ///   box check first and if needed, a pixel check between the sprite masks for an accurate collision. This is performed during each game update iteration in
+    ///   the GameObjectLayer.Update method.
+    /// </remarks>
+    public class CollisionGrid
     {
         #region Constants
 
-        private const int DefaultSizeX = 100;
-        private const int DefaultSizeY = 100;
+        /// <summary>
+        /// Controls the horizontal size of a square in the grid.
+        /// </summary>
+        private const int GridSizeX = 100;
+
+        /// <summary>
+        /// Controls the vertical size of a square in the grid.
+        /// </summary>
+        private const int GridSizeY = 100;
 
         #endregion
 
         #region Variables
 
-        private Dictionary<int, List<GameObject>> _gridBins;
-        private Dictionary<GameObject, List<int>> _gameObjectPos;
+        private Dictionary<int, List<GameObject>> _gridBins;           // Represents the bins for the collision grid
+        private Dictionary<GameObject, List<int>> _gameObjectBins;     // Cross-reference of bins that contain a game object for quick lookup
 
-        private int _gridRows;
-        private int _gridColumns;
-        private int _gridCellX;
-        private int _gridCellY;
+        private int _gridRows;                                         // The number of rows in the grid
+        private int _gridColumns;                                      // The number of columns in the grid
+        private int _gridSquareX;                                      // The actual horizontal size of a square in the grid
+        private int _gridSquareY;                                      // The actual vertical size of a square in the grid
 
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        /// Creates a new instance of the collision grid.
+        /// </summary>
         public CollisionGrid()
         {
             // Create new instance of grid bins list
             _gridBins = new Dictionary<int, List<GameObject>>();
-            _gameObjectPos = new Dictionary<GameObject, List<int>>();
-
-            GetGridCellDimensions(DefaultSizeX, DefaultSizeY);
-        }
-
-        public CollisionGrid(int gridCellX, int gridCellY)
-        {
-            // Create new instance of grid bins list
-            _gridBins = new Dictionary<int, List<GameObject>>();
-            _gameObjectPos = new Dictionary<GameObject, List<int>>();
-
-            GetGridCellDimensions(gridCellX, gridCellY);
+            _gameObjectBins = new Dictionary<GameObject, List<int>>();
+            
+            // Setup the grid dimensions
+            SetGridDimensions(GridSizeX, GridSizeY);
         }
 
         #endregion
 
+        /// <summary>
+        /// Fires when a pixel-based collision has occurred between two game objects.
+        /// </summary>
         public event EventHandler<CollisionEventArgs> Collision;
 
         #region Properties
 
+        /// <summary>
+        /// Gets the number of rows in the collision grid.
+        /// </summary>
         public int GridRows
         {
             get { return _gridRows; }
         }
 
+        /// <summary>
+        /// Gets the number of columns in the collision grid.
+        /// </summary>
         public int GridColumns
         {
             get { return _gridColumns; }
         }
 
-        public int GridCellX
+        /// <summary>
+        /// Gets the horizontal size of a square in the collision grid.
+        /// </summary>
+        public int GridSquareX
         {
-            get { return _gridCellX; }
+            get { return _gridSquareX; }
         }
 
-        public int GridCellY
+        /// <summary>
+        /// Gets the vertical size of a square in the collision grid.
+        /// </summary>
+        public int GridSquareY
         {
-            get { return _gridCellY; }
+            get { return _gridSquareY; }
         }
 
         #endregion
 
         #region Methods
 
-        private void GetGridCellDimensions(int gridCellX, int gridCellY)
+        /// <summary>
+        /// Sets the dimensions of the squares and calculates the number of rows and columns in the collision grid.
+        /// </summary>
+        /// <param name="gridSquareX">The horizontal size of a square in the grid.</param>
+        /// <param name="gridSquareY">The vertical size of a square in the grid.</param>
+        private void SetGridDimensions(int gridSquareX, int gridSquareY)
         {
             // Get the dimensions of the game window
             var winSize = CCDirector.SharedDirector.WinSize;
 
-            // Use the specified size of the grid cells as a starting point
-            _gridCellX = gridCellX;
-            _gridCellY = gridCellY;
+            // Use the specified size of the grid squares as a starting point
+            _gridSquareX = gridSquareX;
+            _gridSquareY = gridSquareY;
 
             // Determine the number of rows and columns in the collision grid
-            _gridColumns = (int)(winSize.Width / _gridCellX);
-            _gridRows = (int)(winSize.Height / _gridCellY);
+            _gridColumns = (int)(winSize.Width / _gridSquareX);
+            _gridRows = (int)(winSize.Height / _gridSquareY);
 
-            // Distribute any remainder among the cell width and height
-            var remainX = ((int)winSize.Width % DefaultSizeX);
-            _gridCellX += (remainX / _gridColumns);
-            var remainY = ((int)winSize.Height % DefaultSizeY);
-            _gridCellY += (remainY / _gridRows);
+            // Distribute any remainder among the square width and height
+            var remainX = ((int)winSize.Width % GridSizeX);
+            _gridSquareX += (remainX / _gridColumns);
+            var remainY = ((int)winSize.Height % GridSizeY);
+            _gridSquareY += (remainY / _gridRows);
 
             // If the grid isn't aligned perfectly to the screen (which is likely), we need to add an extra column/row to account for
             // all the space on the screen (i.e. the space in part of a grid square)
@@ -102,13 +148,22 @@ namespace C2dTutorial3_CollisionDetection
             if (remainY > 0) _gridRows += 1;
         }
 
+        /// <summary>
+        /// Initializes the collision grid.
+        /// </summary>
         public void Initialize()
         {
-            // Clear the grid bins list
+            // Clear the list of grid bins
             _gridBins.Clear();
-            _gameObjectPos.Clear();
+
+            // Clear the game object bins list
+            _gameObjectBins.Clear();
         }
 
+        /// <summary>
+        /// Updates the grid position of the specified game object.
+        /// </summary>
+        /// <param name="gameObject">The game object to update.</param>
         public void UpdateLocation(GameObject gameObject)
         {
             // We're finished if there's no game object to update (could happen for an object that has had a collision)
@@ -130,11 +185,15 @@ namespace C2dTutorial3_CollisionDetection
                 if (!gameObjectList.Contains(gameObject)) gameObjectList.Add(gameObject);
             }
 
-            // Add the list of positions to the game object list
-            if (_gameObjectPos.ContainsKey(gameObject)) _gameObjectPos.Remove(gameObject);
-            _gameObjectPos.Add(gameObject, gridPositions);
+            // Add the list of positions to the game object bins list
+            if (_gameObjectBins.ContainsKey(gameObject)) _gameObjectBins.Remove(gameObject);
+            _gameObjectBins.Add(gameObject, gridPositions);
         }
 
+        /// <summary>
+        /// Updates the grid positions for the specified list of game objects.
+        /// </summary>
+        /// <param name="gameObjectList">The list of game objects to update.</param>
         public void UpdateLocation(List<GameObject> gameObjectList)
         {
             // Add each game object in the list to the appropriate grid position
@@ -142,13 +201,17 @@ namespace C2dTutorial3_CollisionDetection
                 UpdateLocation(gameObject);
         }
 
+        /// <summary>
+        /// Checks for a collision for the specified game object.
+        /// </summary>
+        /// <param name="sourceObject">The game object to check.</param>
         public void CheckCollision(GameObject sourceObject)
         {
             // We're finished if there's no game object to check (could happen for an object that has had a collision)
             if (sourceObject == null) return;
 
             // Get the grid positions for the specified game object
-            var gridPositions = _gameObjectPos[sourceObject];
+            var gridPositions = _gameObjectBins[sourceObject];
 
             // Check each game object list for the grid positions and see if there are any possible collisions
             foreach (var position in gridPositions)
@@ -164,7 +227,7 @@ namespace C2dTutorial3_CollisionDetection
                         // Obviously, checking collisions against the same object is right out
                         if (go == sourceObject) continue;
 
-                        // Same type objects don't collide with each other
+                        // Same type objects don't collide with each other (e.g. Enemy with enemy)
                         if (go.Type == sourceObject.Type) continue;
 
                         // Ship and ship bullets can't collide with each other
@@ -175,7 +238,8 @@ namespace C2dTutorial3_CollisionDetection
                         if ((go.Type == GameObjectType.Enemy && sourceObject.Type == GameObjectType.EnemyBullet) || (go.Type == GameObjectType.EnemyBullet && sourceObject.Type == GameObjectType.Enemy))
                             continue;
 
-                        // All other collisions are valid, so check for a real collision
+                        // All other collisions are valid, so check for a real collision (Cocos2d-XNA will give you the point of collision, but I don't
+                        // care about it here)
                         CCPoint collisionPoint;
                         if (sourceObject.CollidesWith(go, out collisionPoint))
                         {
@@ -189,17 +253,16 @@ namespace C2dTutorial3_CollisionDetection
             }
         }
 
+        /// <summary>
+        /// Checks for collisions for the specified list of game objects.
+        /// </summary>
+        /// <param name="sourceObjectList">The list of game objects to check.</param>
         public void CheckCollision(List<GameObject> sourceObjectList)
         {
-            try
-            {
-                // Check each game object in the list for a collision
-                foreach (var gameObject in sourceObjectList)
-                    CheckCollision(gameObject);
-            }
-            catch (InvalidOperationException)
-            {
-            }
+            // Check each game object in the list for a collision. We use a for loop here instead of a foreach as game objects
+            // will be removed from the list in the CheckCollision method and you'll get errors thrown in a foreach loop.
+            for (int i = 0; i < sourceObjectList.Count; i++)
+                CheckCollision(sourceObjectList[i]);
         }
 
         /// <summary>
@@ -216,15 +279,19 @@ namespace C2dTutorial3_CollisionDetection
             var boundBox = gameObject.BoundingBox;
 
             // Get the grid position for each corner of the game object's bounding box
+            // Bottom left
             int gridPos = GetGridPosition(boundBox.MinX, boundBox.MinY);
             positions.Add(gridPos);
 
+            // Top left
             gridPos = GetGridPosition(boundBox.MinX, boundBox.MaxY);
             if (!positions.Contains(gridPos)) positions.Add(gridPos);
 
+            // Top right
             gridPos = GetGridPosition(boundBox.MaxX, boundBox.MaxY);
             if (!positions.Contains(gridPos)) positions.Add(gridPos);
 
+            // Bottom right
             gridPos = GetGridPosition(boundBox.MaxX, boundBox.MinY);
             if (!positions.Contains(gridPos)) positions.Add(gridPos);
 
@@ -240,16 +307,25 @@ namespace C2dTutorial3_CollisionDetection
         /// <returns></returns>
         private int GetGridPosition(float x, float y)
         {
-            int xPos = (int)(x / _gridCellX);
-            int yPos = (int)(y / _gridCellY);
+            // Convert the positions into grid units
+            int xPos = (int)(x / _gridSquareX);
+            int yPos = (int)(y / _gridSquareY);
+
+            // The grid position returned starts at the bottom left of the screen (position 0) and continues right and up from there 
+            // (e.g. in a 10 x 10 grid, position 10 would be the first column on the second row from the bottom of the screen).
             return (yPos * _gridColumns) + xPos;
         }
 
         #endregion
     }
 
-    internal class CollisionEventArgs : EventArgs
+    /// <summary>
+    /// This class contains information needed by the Collision event.
+    /// </summary>
+    public class CollisionEventArgs : EventArgs
     {
+        #region Constructors
+
         public CollisionEventArgs()
         {
         }
@@ -260,7 +336,20 @@ namespace C2dTutorial3_CollisionDetection
             HitObject = hitObject;
         }
 
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the game object that was the source of the collision.
+        /// </summary>
         public GameObject SourceObject { get; set; }
+
+        /// <summary>
+        /// Gets or sets the game object that was hit by the source object of the collision.
+        /// </summary>
         public GameObject HitObject { get; set; }
+
+        #endregion
     }
 }

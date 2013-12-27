@@ -19,6 +19,9 @@ namespace C2dTutorial3_CollisionDetection
         ExtraButton2
     }
 
+    /// <summary>
+    /// This class handles the various types of input that can occur in the game.
+    /// </summary>
     public class InputHelper
     {
         private GamePadState _lastGamepadState;
