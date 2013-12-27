@@ -9,5 +9,8 @@ This solution contains several tutorials on using the Cocos2d-XNA framework.  To
 * <b>Basic Actions</b> (http://thecodewalk.net/?p=66)<br>
 Basic Actions provides an introduction to using several of the basic actions in Cocos2d-XNA.
 
+* <b>Collision Detection</b><br>
+Collision Detection uses a space shooter style game to demonstrate an implementation of pixel-perfect collision detection in Cocos2d-XNA.
+
 * <b>Converter / ConverterContent</b><br>
 XNA projects used to convert game content to XNB format.  Any changes made to the content will need the XNB file(s) copied manually to the Content folder of the appropriate project in the solution.
